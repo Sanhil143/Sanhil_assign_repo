@@ -85,8 +85,34 @@ router.get("/films/:filmsId",function(req,res){
             res.send(temp)     
         }
         
-
 })
+
+router.get("/sol1",function(req,res){
+
+    let arr = [1,2,3,5,6,7]
+    let sum = arr.length+1
+    let total = sum * ( sum + 1)/2
+    let temp = 0
+    for (let i = 0; i < arr.length; i++) {
+        temp += arr[i];   
+    }
+    let missingNum = (total - temp)
+    res.send("This is a missing number " + missingNum)
+    
+})
+  
+router.get("/sol2",function(req,res){        // n*(f1 + last)/2
+    let arr1 = [33, 34, 35, 37, 38]
+    let sum = arr1.length+1
+    let s = sum * (arr1[0] + arr1[arr1.length-1])/2
+    let a = 0  
+    for(let i =0; i <arr1.length; i++){
+        a += arr1[i]
+    }  // console.error(s-a);    
+    let missingNum1 = (s - a)
+    res.send("This is a missing number " + missingNum1) 
+})
+
 
 
 
