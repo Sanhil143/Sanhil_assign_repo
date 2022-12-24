@@ -1,4 +1,3 @@
-const { type } = require("express/lib/response")
 const UserModel= require("../models/userModel")
 
 
