@@ -1,26 +1,33 @@
+const jwt = require('jsonwebtoken')
 
-const mid1= function ( req, res, next) {
-    req.falana= "hi there. i am adding something new to the req object"
-    console.log("Hi I am a middleware named Mid1")
-    next()
+
+const headerValidator = (req,res,next) => {
+      try{
+      let token = req.headers["x-auth-token"]
+      
+      if(!token){
+            res.status(500).send({Error:"Header is must in this operation"})
+      }
+      else{
+            let decodedToken = jwt.verify(token,"Sanhil-Authen")
+            // console.error(decodedToken);
+            if (!decodedToken) {
+                  res.status(500).send({Error:"Token is not valid"})
+            }
+            else{
+                  let userId = req.params.userId                
+                  if(decodedToken.user != userId){
+                        res.status(500).send({Error:"User is not exist"})
+                  }
+                  else{
+                        next()
+                  }
+            }
+      }
+}
+catch(err){
+      res.status(500).send({msg:"Token is not valid", error:err.message})
+}
 }
 
-const mid2= function ( req, res, next) {
-    console.log("Hi I am a middleware named Mid2")
-    next()
-}
-
-const mid3= function ( req, res, next) {
-    console.log("Hi I am a middleware named Mid3")
-    next()
-}
-
-const mid4= function ( req, res, next) {
-    console.log("Hi I am a middleware named Mid4")
-    next()
-}
-
-module.exports.mid1= mid1
-module.exports.mid2= mid2
-module.exports.mid3= mid3
-module.exports.mid4= mid4
+module.exports.headerValidator = headerValidator
